@@ -9,9 +9,6 @@ git clone https://github.com/pbssarath/adaptive_doe_exp.git
 git submodule update --init --recursive
 python3.7 -m venv venv
 source venv/bin/activate.sh
-cd paryopt/
-pip install -r requirements.txt
-cd ..
 pip install -r requirements.txt
 ```
 
