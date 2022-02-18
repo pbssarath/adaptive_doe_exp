@@ -2,7 +2,7 @@
 
 ### Installation
 
-The code uses PARyOpt to adaptively sample from a specified experimental space. 
+The code uses [PARyOpt](https://bitbucket.org/baskargroup/paryopt) to adaptively sample from a specified experimental space. 
 
 ``` bash
 git clone https://github.com/pbssarath/adaptive_doe_exp.git
@@ -23,6 +23,3 @@ To update the code from the repository, go to the repository home directory
 git pull
 git submodule update --recursive
 ```
-
-
-
