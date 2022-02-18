@@ -1,0 +1,3 @@
+[submodule "paryopt"]
+	path = paryopt
+	url = https://bitbucket.org/baskargroup/paryopt
