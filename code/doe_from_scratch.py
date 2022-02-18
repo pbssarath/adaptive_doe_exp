@@ -4,9 +4,9 @@ import logging
 import time
 import numpy as np
 
-from PARyOpt import BayesOpt
-from PARyOpt.evaluators.async_parse_result_local import AsyncLocalParseResultEvaluator
-from evaluators.paryopt_async import ValueNotReady
+from ..paryopt.PARyOpt import BayesOpt
+from ..paryopt.PARyOpt.evaluators.async_parse_result_local import AsyncLocalParseResultEvaluator
+from ..paryopt.PARyOpt.evaluators.paryopt_async import ValueNotReady
 
 parameter_names = ['donor ratio', 'concentration', 'spin speed', 'annealing temperature', 'additive amount']
 # lower limits
