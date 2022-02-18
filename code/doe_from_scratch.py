@@ -4,9 +4,9 @@ import logging
 import time
 import numpy as np
 
-from ..paryopt.PARyOpt import BayesOpt
-from ..paryopt.PARyOpt.evaluators.async_parse_result_local import AsyncLocalParseResultEvaluator
-from ..paryopt.PARyOpt.evaluators.paryopt_async import ValueNotReady
+from _submodules.paryopt.PARyOpt import paryopt
+from _submodules.paryopt.PARyOpt.evaluators import async_parse_result_local
+from _submodules.paryopt.PARyOpt.evaluators import paryopt_async
 
 parameter_names = ['donor ratio', 'concentration', 'spin speed', 'annealing temperature', 'additive amount']
 # lower limits
@@ -67,7 +67,7 @@ def result_parser(directory, x):
         if_parse = f.readline().strip()
     if if_parse == "False":
         # cost function evaluation not yet done
-        return ValueNotReady()
+        return paryopt_async.ValueNotReady()
     else:
         # parse result and return
         val = 0.0
@@ -76,7 +76,7 @@ def result_parser(directory, x):
         print(x, val)
         logger.info('Folder completed: {}'.format(directory))
         print('Folder completed: {}!'.format(directory))
-        return val
+        return -1.0 * val
 
 
 def user_defined_kappa(curr_iter, freq, t_const):
@@ -119,11 +119,11 @@ if __name__ == "__main__":
 
     jobs_dir = os.path.join(os.getcwd(), 'opt_jobs')
     # parallel, asynchronous, out-of-script
-    evaluator = AsyncLocalParseResultEvaluator(job_generator=folder_generator,
-                                               jobs_dir=jobs_dir,
-                                               wait_time=timedelta(minutes=1),
-                                               max_pending=8,
-                                               required_fraction=0.75)
+    evaluator = async_parse_result_local.AsyncLocalParseResultEvaluator(job_generator=folder_generator,
+                                                                        jobs_dir=jobs_dir,
+                                                                        wait_time=timedelta(minutes=1),
+                                                                        max_pending=8,
+                                                                        required_fraction=0.75)
 
     logger.info('Optimization evaluations are done in {} directory'.format(jobs_dir))
 
@@ -133,12 +133,12 @@ if __name__ == "__main__":
         my_kappa_funcs.append(lambda curr_iter_num, freq=10. * (j * j + 2), t_const=0.8 / (1. + j):
                               user_defined_kappa(curr_iter_num, freq=freq, t_const=t_const))
 
-    b_opt = BayesOpt(cost_function=evaluator,
-                     n_dim=ndim, n_opt=n_opt, n_init=4,
-                     u_bound=u_bound, l_bound=l_bound,
-                     kern_function='matern_52',
-                     acq_func='LCB', kappa_strategy=my_kappa_funcs,
-                     if_restart=False)
+    b_opt = paryopt.BayesOpt(cost_function=evaluator,
+                             n_dim=ndim, n_opt=n_opt, n_init=4,
+                             u_bound=u_bound, l_bound=l_bound,
+                             kern_function='matern_52',
+                             acq_func='LCB', kappa_strategy=my_kappa_funcs,
+                             if_restart=False)
     logger.info('BO initialized')
 
     for curr_iter in range(iter_max):
