@@ -12,6 +12,12 @@ source venv/bin/activate.sh
 pip install -r requirements.txt
 ```
 
+To use with conda, use 
+```bash
+conda create --name <env>
+conda activate <env>
+conda install --yes --file requirements.txt
+```
 This will set up PARyOpt as well as the codes for running adaptive DoE.
 
 #### Updating
