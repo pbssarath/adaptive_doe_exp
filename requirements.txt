@@ -1,4 +1,4 @@
-notebook==6.4.8
+notebook>=6.4.10
 jupyter==1.0.0
 
 -r _submodules/paryopt/requirements.txt
